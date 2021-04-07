@@ -1,5 +1,6 @@
 import TicTacToe.getInput
 import java.lang.InterruptedException
+import kotlin.math.roundToInt
 
 class Player     //constructor.  requires string to set player type
     (  //player makes moves and can be human or AI
@@ -24,42 +25,42 @@ class Player     //constructor.  requires string to set player type
             delay(1000, TicTacToe.game!!.gridSize) //take a second to go to make it appear as if computer is thinking
             while (turn) {
                 //AI selects a random empty cell and places corrosponding mark
-                index = Math.round((TicTacToe.game!!.gridSize * TicTacToe.game!!.gridSize - 1) * Math.random())
-                    .toInt()
+                index = ((TicTacToe.game!!.gridSize * TicTacToe.game!!.gridSize - 1) * Math.random()).roundToInt()
+
                 move(index, TicTacToe.game)
             }
         } else {
             //if human, do human stuff
             println("\tPlease place an X on the grid.  You can")
-            TicTacToe.user_input = getInput("\tdo this by typing 1A, 1B, 1C, 2A, etc.: ")
+            TicTacToe.useInput = getInput("\tdo this by typing 1A, 1B, 1C, 2A, etc.: ")
 
             //while it's the player's turn...
             while (turn) {
 
                 //validate user input
-                if (valid_input(TicTacToe.user_input)) {
-                    if (TicTacToe.user_input!!.length == 2) {
-                        column = TicTacToe.user_input!!.substring(0, 1).toInt()
-                        row = letterToNumber(TicTacToe.user_input!!.substring(1, 2))
+                if (valid_input(TicTacToe.useInput)) {
+                    if (TicTacToe.useInput!!.length == 2) {
+                        column = TicTacToe.useInput!!.substring(0, 1).toInt()
+                        row = letterToNumber(TicTacToe.useInput!!.substring(1, 2))
                     } else {
-                        column = TicTacToe.user_input!!.substring(0, 2).toInt()
-                        row = letterToNumber(TicTacToe.user_input!!.substring(2, 3))
+                        column = TicTacToe.useInput!!.substring(0, 2).toInt()
+                        row = letterToNumber(TicTacToe.useInput!!.substring(2, 3))
                     }
                     index = TicTacToe.game!!.gridSize * (row - 1) + (column - 1)
                     if (index > TicTacToe.game!!.gridSize * TicTacToe.game!!.gridSize - 1 || index < 0) {
-                        TicTacToe.user_input = getInput("That's not a valid spot!  Please choose another spot: ")
+                        TicTacToe.useInput = getInput("That's not a valid spot!  Please choose another spot: ")
                     } else {
 
                         //if valid input, and cell isn't taken already,
                         //place mark in selected cell and end turn
                         move(index, TicTacToe.game)
                         if (turn) {
-                            TicTacToe.user_input =
+                            TicTacToe.useInput =
                                 getInput("That space is already in play!  Please choose another spot: ")
                         }
                     }
                 } else {
-                    TicTacToe.user_input = getInput("That's not valid input.  Please choose another spot: ")
+                    TicTacToe.useInput = getInput("That's not valid input.  Please choose another spot: ")
                 }
             }
         }

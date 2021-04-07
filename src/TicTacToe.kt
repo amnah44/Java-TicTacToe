@@ -4,12 +4,11 @@ import java.io.InputStreamReader
 object TicTacToe {
     var game: Game? = null
     var count = 0
-    var user_input: String? = null
+    var useInput: String? = null
     private var gameMode = 0
-    private var valid_input = false
+    private var validinput = false
     @JvmStatic
     fun main(args: Array<String>) {
-        val gameSize: Int
         val minimumGameSize = 1
         val maximumGameSize = 26
 
@@ -18,31 +17,31 @@ object TicTacToe {
         println("\n\tPlease select your Game mode.")
         println("\n\t    (1) Human vs. Computer")
         println("\n\t    (2) Computer vs. Computer")
-        user_input = getInput("\n\tWhich mode would you like to play? (1/2): ")
+        useInput = getInput("\n\tWhich mode would you like to play? (1/2): ")
 
         //Keep asking for an answer from the user until we get a 1 or a 2
-        gameMode(user_input) //gameMode() is defines below
+        gameMode(useInput) //gameMode() is defines below
         println("\n\tHow large of a grid would you like to use? ")
-        user_input = getInput("\n\tPlease enter an integer between $minimumGameSize and $maximumGameSize: ")
+        useInput = getInput("\n\tPlease enter an integer between $minimumGameSize and $maximumGameSize: ")
 
-        //validate user unput for game size
-        valid_input = false
-        while (!valid_input) {
-            if (user_input!!.length > 0 && user_input!!.substring(0, 1)
-                    .matches("[1-9]".toRegex()) && minimumGameSize <= user_input!!.toInt() && user_input!!.toInt() <= maximumGameSize
+        //validate user input for game size
+        validinput = false
+        while (!validinput) {
+            if (useInput!!.isNotEmpty() && useInput!!.substring(0, 1)
+                    .matches("[1-9]".toRegex()) && minimumGameSize <= useInput!!.toInt() && useInput!!.toInt() <= maximumGameSize
             ) {
-                valid_input = true
+                validinput = true
             } else {
-                user_input = getInput("\n\tYou must enter a number between $minimumGameSize and $maximumGameSize: ")
+                useInput = getInput("\n\tYou must enter a number between $minimumGameSize and $maximumGameSize: ")
             }
         }
 
         //issue warning for game sizes larger than 15
-        if (user_input!!.toInt() > 15) {
+        if (useInput!!.toInt() > 15) {
             println("\n\t!!WARNING!!\n\t!!WARNING!!  Games large than 15 will not display correctly if console width is restricted to 80 col (neither will this message)\n\t!!WARNING!!")
             getInput("")
         }
-        gameSize = user_input!!.toInt()
+        val gameSize: Int = useInput!!.toInt()
 
         //Create a new Game instance
         game = Game(gameSize)
@@ -67,12 +66,7 @@ object TicTacToe {
         while (!game!!.finished) {
             for (player in players) {
                 player!!.go()
-                println(
-                    """
-                        
-                        ${game!!.output()}
-                        """.trimIndent()
-                )
+                println("\n${game!!.output()}")
                 count += 1
                 if (game!!.finished) {
                     break
@@ -107,18 +101,19 @@ object TicTacToe {
     }
 
     //validates user input and sets the game mode
-    private fun gameMode(user_input: String?) {
-        var user_input = user_input
-        valid_input = false
-        while (!valid_input) {
-            if (user_input!!.length == 1 && user_input.substring(0, 1).matches("[1-2]".toRegex())) {
-                valid_input = true
+    private fun gameMode(mUserInput: String?) {
+        var mUserInput = mUserInput
+        validinput = false
+
+        while (!validinput) {
+            if (mUserInput!!.length == 1 && mUserInput.substring(0, 1).matches("[1-2]".toRegex())) {
+                validinput = true
             } else {
-                user_input = getInput("\n\tYou must enter '1' or '2' for the game mode: ")
+                mUserInput = getInput("\n\tYou must enter '1' or '2' for the game mode: ")
             }
         }
 
         //Set user input to gameMode for use later
-        gameMode = user_input!!.toInt()
+        gameMode = mUserInput!!.toInt()
     }
 }

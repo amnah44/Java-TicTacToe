@@ -3,7 +3,7 @@ class Game(var gridSize: Int) {
     //with the help of the Cell class.
     var finished = false
     var draw = false
-    private val grid: Array<Cell?>
+    private val grid: Array<Cell?> = arrayOfNulls(gridSize * gridSize)
 
     //checks to see if a win condition has been met and
     //outputs the current game map to the console 
@@ -13,7 +13,7 @@ class Game(var gridSize: Int) {
     }
 
     //places an X or an O in a cell ont he game map
-    fun setCell(index: Int): Boolean {
+    open fun setCell(index: Int): Boolean {
         return if (grid[index]!!.empty) {
             grid[index]!!.placeMark()
             true
@@ -28,10 +28,21 @@ class Game(var gridSize: Int) {
         var rowWin: Boolean
         var columnWin: Boolean
         var diagonalWin: Boolean
-        val rows = Array(gridSize) { arrayOfNulls<Cell>(gridSize) }
-        val columns = Array(gridSize) { arrayOfNulls<Cell>(gridSize) }
-        val diagonals =
-            Array(2) { arrayOfNulls<Cell>(gridSize) } //there are only ever two diagonals which complete a tictactoe in a square
+        val rows = Array(gridSize) {
+            arrayOfNulls<Cell>(
+                gridSize
+            )
+        }
+        val columns = Array(gridSize) {
+            arrayOfNulls<Cell>(
+                gridSize
+            )
+        }
+        val diagonals: Array<Array<Cell?>> = Array(2) {
+            arrayOfNulls(
+                gridSize
+            )
+        } //there are only ever two diagonals which complete a tictactoe in a square
 
         //if every cell is filled, end the game
         gridFilled = true
@@ -185,7 +196,6 @@ class Game(var gridSize: Int) {
 
     //constructor.  takes integer and generates a new Game with given size
     init {
-        grid = arrayOfNulls(gridSize * gridSize)
         for (i in grid.indices) {
             grid[i] = Cell()
         }
