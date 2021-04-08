@@ -18,21 +18,21 @@ class Player     //constructor.  requires string to set player type
         turn = true
 
         // if AI, do computery things
-        if (type === "AI") {
+        if (type === Constants.AI_KEY) {
 
             //let user know that AI is going
-            print("\tThe computer will now make a move..")
+            print("\t${Constants.COMPUTER_MOVE_MSG}")
             delay(1000, TicTacToe.game!!.gridSize) //take a second to go to make it appear as if computer is thinking
             while (turn) {
                 //AI selects a random empty cell and places corrosponding mark
                 index = ((TicTacToe.game!!.gridSize * TicTacToe.game!!.gridSize - 1) * Math.random()).roundToInt()
 
-                move(index, TicTacToe.game)
+                move(index)
             }
         } else {
             //if human, do human stuff
-            println("\tPlease place an X on the grid.  You can")
-            TicTacToe.useInput = getInput("\tdo this by typing 1A, 1B, 1C, 2A, etc.: ")
+            println("\t${Constants.PLEASE_PLACE_AN_X_MSG}")
+            TicTacToe.useInput = getInput("\t${Constants.TYPY_NAME_CELL_MSG}")
 
             //while it's the player's turn...
             while (turn) {
@@ -48,26 +48,26 @@ class Player     //constructor.  requires string to set player type
                     }
                     index = TicTacToe.game!!.gridSize * (row - 1) + (column - 1)
                     if (index > TicTacToe.game!!.gridSize * TicTacToe.game!!.gridSize - 1 || index < 0) {
-                        TicTacToe.useInput = getInput("That's not a valid spot!  Please choose another spot: ")
+                        TicTacToe.useInput = getInput("${Constants.VAILD_SPOT_MSG} ")
                     } else {
 
                         //if valid input, and cell isn't taken already,
                         //place mark in selected cell and end turn
-                        move(index, TicTacToe.game)
+                        move(index)
                         if (turn) {
                             TicTacToe.useInput =
-                                getInput("That space is already in play!  Please choose another spot: ")
+                                getInput("${Constants.ALREADY_CHOOSE_SPOT_MSG} ")
                         }
                     }
                 } else {
-                    TicTacToe.useInput = getInput("That's not valid input.  Please choose another spot: ")
+                    TicTacToe.useInput = getInput("${Constants.VAILD_INPUT_MSG} ")
                 }
             }
         }
     }
 
     //player places mark
-    private fun move(index: Int, game: Game?) {
+    private fun move(index: Int) {
         if (TicTacToe.game!!.setCell(index)) {
             turn = false
         }
@@ -103,7 +103,7 @@ class Player     //constructor.  requires string to set player type
 
         //converts the letter input for row/column selection into a usable number
         private fun letterToNumber(str: String): Int {
-            return "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".indexOf(str) % 26 + 1
+            return Constants.ALPHABET_KEY.indexOf(str) % 26 + 1
         }
     }
 }

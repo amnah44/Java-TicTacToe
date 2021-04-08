@@ -13,15 +13,16 @@ object TicTacToe {
         val maximumGameSize = 26
 
         //When program starts, user is met with a welcome message
-        println("\n\tWelcome to this wonderful and lovely game of TicTacToe.")
-        println("\n\tPlease select your Game mode.")
-        println("\n\t    (1) Human vs. Computer")
-        println("\n\t    (2) Computer vs. Computer")
-        useInput = getInput("\n\tWhich mode would you like to play? (1/2): ")
+        //all the text will be as a  constants here
+        println("\n\t${Constants.WLCOME_MSG}")
+        println("\n\t${Constants.SELECT_GAME_MODE_MSG}")
+        println("\n\t    ${Constants.HUMAN_COMPUTER_MSG}")
+        println("\n\t    ${Constants.COMPUTER_HUMAN_MSG}")
+        useInput = getInput("\n\t${Constants.MODE_PLAY_MSG} ")
 
         //Keep asking for an answer from the user until we get a 1 or a 2
         gameMode(useInput) //gameMode() is defines below
-        println("\n\tHow large of a grid would you like to use? ")
+        println("\n\t${Constants.LARG_GRID_MSG} ")
         useInput = getInput("\n\tPlease enter an integer between $minimumGameSize and $maximumGameSize: ")
 
         //validate user input for game size
@@ -38,7 +39,7 @@ object TicTacToe {
 
         //issue warning for game sizes larger than 15
         if (useInput!!.toInt() > 15) {
-            println("\n\t!!WARNING!!\n\t!!WARNING!!  Games large than 15 will not display correctly if console width is restricted to 80 col (neither will this message)\n\t!!WARNING!!")
+            println("\n\t${Constants.WORNING_MSG}")
             getInput("")
         }
         val gameSize: Int = useInput!!.toInt()
@@ -51,11 +52,11 @@ object TicTacToe {
 
         //set players to AI or Human depending on game mode
         if (gameMode == 1) {
-            players[0] = Player("Human")
-            players[1] = Player("AI")
+            players[0] = Player(Constants.Human_KEY)
+            players[1] = Player(Constants.AI_KEY)
         } else {
-            players[0] = Player("AI")
-            players[1] = Player("AI")
+            players[0] = Player(Constants.AI_KEY)
+            players[1] = Player(Constants.AI_KEY)
         }
 
         //Draw the blank board initially to show user which columns and rows to choose from
@@ -76,14 +77,14 @@ object TicTacToe {
 
         //output an ending message to the game
         if (game!!.draw) {
-            println("\n\tCat's game!")
+            println("\n\t${Constants.CAT_GAME_MSG}")
         } else {
 
             //count variable from earlier is used to decide who went last and therefore won.
             if (count % 2 == 1) {
-                println("\n\tX's win!")
+                println("\n\t${Constants.X_WIN_MSG}")
             } else {
-                println("\n\tO's win!")
+                println("\n\t${Constants.O_WIN_MSG}")
             }
         }
     }
@@ -109,7 +110,7 @@ object TicTacToe {
             if (mUserInput!!.length == 1 && mUserInput.substring(0, 1).matches("[1-2]".toRegex())) {
                 validinput = true
             } else {
-                mUserInput = getInput("\n\tYou must enter '1' or '2' for the game mode: ")
+                mUserInput = getInput("\n\t${Constants.ENTER_1_OR_2_MSG} ")
             }
         }
 
