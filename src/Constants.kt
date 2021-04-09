@@ -6,7 +6,7 @@ object Constants {
     const val MODE_PLAY_MSG = "Which mode would you like to play? (1/2):"
     const val LARG_GRID_MSG = "How large of a grid would you like to use?"
     const val WORNING_MSG =
-        "!!WARNING!!\\n\\t!!WARNING!!  Games large than 15 will not display correctly if console width is restricted to 80 col (neither will this message)\\n\\t!!WARNING!!\""
+        "!!WARNING!!\n\t!!WARNING!!  Games large than 15 will not display correctly if console width is restricted to 80 col (neither will this message)\n\t!!WARNING!!"
     const val Human_KEY = "Human"
     const val AI_KEY = "AI"
     const val CAT_GAME_MSG = "Cat's game!"

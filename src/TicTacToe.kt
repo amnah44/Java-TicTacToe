@@ -1,5 +1,6 @@
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import kotlin.concurrent.timer
 
 object TicTacToe {
     var game: Game? = null
@@ -7,6 +8,7 @@ object TicTacToe {
     var useInput: String? = null
     private var gameMode = 0
     private var validinput = false
+
     @JvmStatic
     fun main(args: Array<String>) {
         val minimumGameSize = 1
@@ -27,18 +29,18 @@ object TicTacToe {
 
         //validate user input for game size
         validinput = false
-        while (!validinput) {
-            if (useInput!!.isNotEmpty() && useInput!!.substring(0, 1)
-                    .matches("[1-9]".toRegex()) && minimumGameSize <= useInput!!.toInt() && useInput!!.toInt() <= maximumGameSize
-            ) {
-                validinput = true
-            } else {
-                useInput = getInput("\n\tYou must enter a number between $minimumGameSize and $maximumGameSize: ")
-            }
+        //use when instead while statement
+        when (!validinput) {
+            useInput!!.isNotEmpty() && useInput!!.substring(0, 1)
+                .matches("[1-9]".toRegex()) && minimumGameSize <= useInput!!.toInt() && useInput!!.toInt() <= maximumGameSize
+            -> validinput = true
+            else -> useInput = getInput("\n\tYou must enter a number between $minimumGameSize and $maximumGameSize: ")
+
         }
 
         //issue warning for game sizes larger than 15
-        if (useInput!!.toInt() > 15) {
+        //use takeIf instead if normal
+        useInput?.takeIf { it.toInt() > 15 }?.let {
             println("\n\t${Constants.WORNING_MSG}")
             getInput("")
         }
@@ -106,12 +108,11 @@ object TicTacToe {
         var mUserInput = mUserInput
         validinput = false
 
-        while (!validinput) {
-            if (mUserInput!!.length == 1 && mUserInput.substring(0, 1).matches("[1-2]".toRegex())) {
-                validinput = true
-            } else {
+        when (!validinput) {
+            mUserInput?.length == 1 && mUserInput.substring(0, 1).matches("[1-2]".toRegex())
+            -> validinput = true
+            else ->
                 mUserInput = getInput("\n\t${Constants.ENTER_1_OR_2_MSG} ")
-            }
         }
 
         //Set user input to gameMode for use later

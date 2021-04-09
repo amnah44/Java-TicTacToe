@@ -47,9 +47,7 @@ class Game(var gridSize: Int) {
         //if every cell is filled, end the game
         gridFilled = true
         for (i in 0 until gridSize * gridSize) {
-            if (grid[i]!!.empty) {
-                gridFilled = false
-            }
+            grid[i]?.takeIf { it.empty }?.let { gridFilled = false }
         }
         if (gridFilled) {
             finished = true
@@ -79,19 +77,15 @@ class Game(var gridSize: Int) {
 
         //if a row has all the same content and isnt empty
         //then the game is over
-        for (row in rows) {
-
+        rows.forEach {
             //if the row elements are all the same and not empty
             //set finished to true
             rowWin = true
-            for (i in 0 until row.size - 1) {
-                if (row[i]!!.output() !== row[i + 1]!!.output()) {
-                    rowWin = false
-                }
-                for (j in 0 until row.size - 1) {
-                    if (row[i]!!.empty) {
-                        rowWin = false
-                    }
+            for (i in 0 until it.size - 1) {
+                it[i]?.takeIf { item -> item.output() !== it[i + 1]?.output() }?.let { rowWin = false }
+
+                for (j in 0 until it.size - 1) {
+                    it[i]?.takeIf { item -> item.empty }?.let { rowWin = false }
                 }
             }
             if (rowWin) {
@@ -102,19 +96,15 @@ class Game(var gridSize: Int) {
 
         //if a column has all the same content and isnt empty
         //then the game is over
-        for (column in columns) {
+        columns.forEach{
 
             //if the column elements are all the same and not empty
             //set finished to true
             columnWin = true
-            for (i in 0 until column.size - 1) {
-                if (column[i]!!.output() !== column[i + 1]!!.output()) {
-                    columnWin = false
-                }
-                for (j in 0 until column.size - 1) {
-                    if (column[i]!!.empty) {
-                        columnWin = false
-                    }
+            for (i in 0 until it.size - 1) {
+                it[i]?.takeIf { item -> item.output() !== it[i + 1]?.output() }?.let { columnWin = false }
+                for (j in 0 until it.size - 1) {
+                    it[i]?.takeIf { item -> item.empty }?.let { columnWin = false }
                 }
             }
             if (columnWin) {
@@ -125,19 +115,16 @@ class Game(var gridSize: Int) {
 
         //if a diagonal has all the same content and isnt empty
         //then the game is over
-        for (diagonal in diagonals) {
+        diagonals.forEach {
 
             //if the diagonal elements are all the same and not empty
             //set finished to true
             diagonalWin = true
-            for (i in 0 until diagonal.size - 1) {
-                if (diagonal[i]!!.output() !== diagonal[i + 1]!!.output()) {
-                    diagonalWin = false
-                }
-                for (j in 0 until diagonal.size - 1) {
-                    if (diagonal[i]!!.empty) {
-                        diagonalWin = false
-                    }
+            for (i in 0 until it.size - 1) {
+                it[i]?.takeIf { item -> item.output() !== it[i + 1]?.output() }?.let { diagonalWin = false }
+
+                for (j in 0 until it.size - 1) {
+                    it[i]?.takeIf { item -> item.empty}?.let { diagonalWin = false }
                 }
             }
             if (diagonalWin) {
@@ -149,7 +136,6 @@ class Game(var gridSize: Int) {
     }
 
     //draws the current game state in perfect proportion
-    //
     private fun drawMap(): String {
         var top = "\t\t  "
         var fill = "\t\t    "
@@ -196,8 +182,7 @@ class Game(var gridSize: Int) {
 
     //constructor.  takes integer and generates a new Game with given size
     init {
-        for (i in grid.indices) {
-            grid[i] = Cell()
+        grid.indices.forEach{grid[it] = Cell()
         }
     }
 }

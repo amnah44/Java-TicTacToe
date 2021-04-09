@@ -54,6 +54,7 @@ class Player     //constructor.  requires string to set player type
                         //if valid input, and cell isn't taken already,
                         //place mark in selected cell and end turn
                         move(index)
+
                         if (turn) {
                             TicTacToe.useInput =
                                 getInput("${Constants.ALREADY_CHOOSE_SPOT_MSG} ")
@@ -68,9 +69,7 @@ class Player     //constructor.  requires string to set player type
 
     //player places mark
     private fun move(index: Int) {
-        if (TicTacToe.game!!.setCell(index)) {
-            turn = false
-        }
+        TicTacToe.takeIf { it.game!!.setCell(index) }?.let { turn = false }
     }
 
     companion object {
